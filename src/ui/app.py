@@ -253,7 +253,46 @@ def export_trials(trials):
         mime="text/csv"
     )
 
+def check_deployment():
+    """Check deployment status and requirements."""
+    st.write("🔄 Checking deployment requirements...")
+    
+    # Check Python version
+    import sys
+    st.write(f"Python version: {sys.version}")
+    
+    # Check key packages
+    import pkg_resources
+    packages = ['streamlit', 'langchain', 'transformers', 'torch']
+    for package in packages:
+        version = pkg_resources.get_distribution(package).version
+        st.write(f"{package} version: {version}")
+    
+    # Check if data files exist
+    data_path = Path(__file__).parent.parent.parent / "data"
+    st.write(f"Looking for data in: {data_path}")
+    
+    demo_file = data_path / "clin_trials_demo.csv"
+    if demo_file.exists():
+        st.write("✅ Demo dataset found")
+    else:
+        st.error("❌ Demo dataset not found")
+    
+    return True
+
 def main():
+    st.set_page_config(
+        page_title="Clinical Trial Assistant",
+        page_icon="🏥",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )
+    
+    # Show deployment check on first load
+    if 'deployment_checked' not in st.session_state:
+        with st.spinner("Checking deployment status..."):
+            st.session_state.deployment_checked = check_deployment()
+    
     initialize_session_state()
     
     # Theme Toggle and View Mode Selection
