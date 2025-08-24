@@ -11,7 +11,7 @@ from chromadb import Client, Settings
 # Load environment variables
 load_dotenv()
 
-def get_llm(model_name: str = "gpt-3.5-turbo"):
+def get_llm(model_name: str = "google/flan-t5-large"):
     """
     Get the appropriate LLM based on environment and configuration.
     """
@@ -20,20 +20,16 @@ def get_llm(model_name: str = "gpt-3.5-turbo"):
     if deployment_env == "local":
         return Ollama(model=model_name)
     else:
-        # Cloud deployment - use OpenAI by default, fallback to HuggingFace
-        if os.getenv("OPENAI_API_KEY"):
-            return ChatOpenAI(
-                model_name=model_name,
-                temperature=0.7,
-                openai_api_key=os.getenv("OPENAI_API_KEY")
-            )
-        elif os.getenv("HUGGINGFACE_API_KEY"):
-            return HuggingFaceHub(
-                repo_id="google/flan-t5-large",
-                huggingfacehub_api_token=os.getenv("HUGGINGFACE_API_KEY")
-            )
-        else:
-            raise ValueError("No API keys found for cloud deployment. Please set OPENAI_API_KEY or HUGGINGFACE_API_KEY")
+        # Cloud deployment - use HuggingFace's free models
+        from huggingface_hub.inference._text_generation import TextGenerationService
+        from langchain_community.llms import HuggingFaceEndpoint
+
+        return HuggingFaceEndpoint(
+            endpoint_url="https://api-inference.huggingface.co/models/google/flan-t5-large",
+            task="text2text-generation",
+            temperature=0.7,
+            max_length=512
+        )
 
 class ClinicalTrialAssistant:
     def __init__(self, model_name: Optional[str] = None, persist_directory: Optional[str] = None):
