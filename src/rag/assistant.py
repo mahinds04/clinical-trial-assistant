@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
-from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 from langchain_community.llms import Ollama, HuggingFaceHub
 from chromadb import Client, Settings
 
