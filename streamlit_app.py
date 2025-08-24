@@ -7,7 +7,7 @@ os.environ["DEPLOYMENT_ENV"] = "cloud"
 
 # Import and run the main app
 try:
-    from app import main
+    from src.app import main
     main()
 except ImportError:
     st.error("Unable to import the main application. Please check the requirements.")
