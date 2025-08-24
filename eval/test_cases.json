@@ -1,0 +1,54 @@
+{
+    "test_cases": [
+        {
+            "question": "What are some ongoing trials for breast cancer immunotherapy?",
+            "relevant_trials": ["NCT04185831", "NCT04191135", "NCT04322409"],
+            "expected_concepts": ["breast cancer", "immunotherapy", "ongoing"]
+        },
+        {
+            "question": "Find phase 3 diabetes trials with cardiovascular outcomes",
+            "relevant_trials": ["NCT03875729", "NCT03619213"],
+            "expected_concepts": ["diabetes", "cardiovascular", "phase 3"]
+        },
+        {
+            "question": "What are the latest COVID-19 vaccine trials in children?",
+            "relevant_trials": ["NCT04796896", "NCT04816643"],
+            "expected_concepts": ["COVID-19", "vaccine", "pediatric", "children"]
+        },
+        {
+            "question": "Show me trials testing new treatments for advanced melanoma",
+            "relevant_trials": ["NCT04535791", "NCT04339738"],
+            "expected_concepts": ["melanoma", "advanced", "treatment"]
+        },
+        {
+            "question": "What studies are investigating gene therapy for rare diseases?",
+            "relevant_trials": ["NCT04581434", "NCT04624659"],
+            "expected_concepts": ["gene therapy", "rare disease"]
+        },
+        {
+            "question": "Are there any trials combining immunotherapy with chemotherapy for lung cancer?",
+            "relevant_trials": ["NCT04684485", "NCT04513925"],
+            "expected_concepts": ["lung cancer", "immunotherapy", "chemotherapy", "combination"]
+        },
+        {
+            "question": "Find trials studying new Alzheimer's treatments in early stages",
+            "relevant_trials": ["NCT04437511", "NCT04315389"],
+            "expected_concepts": ["Alzheimer's", "early stage", "treatment"]
+        },
+        {
+            "question": "What are some active CAR-T cell therapy trials?",
+            "relevant_trials": ["NCT04637503", "NCT04549363"],
+            "expected_concepts": ["CAR-T", "cell therapy", "active"]
+        },
+        {
+            "question": "Show me phase 1 safety studies for new antibiotics",
+            "relevant_trials": ["NCT04582864", "NCT04697486"],
+            "expected_concepts": ["antibiotics", "phase 1", "safety"]
+        },
+        {
+            "question": "What trials are studying depression in adolescents?",
+            "relevant_trials": ["NCT04442789", "NCT04363632"],
+            "expected_concepts": ["depression", "adolescent", "mental health"]
+        }
+    ]
+}

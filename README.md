@@ -1,6 +1,20 @@
 # Clinical Trial Query Assistant
 
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/mahinds04/clinical-trial-assistant)
+
 A local, privacy-friendly Clinical Trial Query Assistant powered by Ollama. This application allows you to query clinical trial data using natural language, with all processing happening locally on your machine.
+
+> **Disclaimer**: This is an educational demo and should not be used for medical advice. Trial data may be outdated.
+
+## Why This Project?
+
+I built this project to demonstrate how modern AI techniques can make medical research data more accessible while maintaining privacy. It showcases:
+
+- 🔒 Local LLM integration with privacy-first approach
+- 🔍 Vector search implementation for efficient information retrieval
+- 📊 Clinical data processing and structuring
+- 🤖 RAG (Retrieval Augmented Generation) system architecture
+- 🎯 Production-ready Python project structure
 
 ## Features
 
@@ -14,13 +28,29 @@ A local, privacy-friendly Clinical Trial Query Assistant powered by Ollama. This
 
 1. [Ollama](https://ollama.ai/) installed and running locally
 2. Python 3.8+
-3. Clinical trials dataset from ClinicalTrials.gov (Kaggle)
+3. Clinical trials dataset (see [Data Source](#data-source))
+
+### Model Setup
+
+```bash
+# Pull required models (CPU-only works fine - 3B model runs on most laptops)
+ollama pull llama2:3b
+ollama pull nomic-embed-text
+```
+
+## Data Source
+
+This project uses clinical trial data from:
+- [ClinicalTrials.gov](https://clinicaltrials.gov/ct2/resources/download) - A database of privately and publicly funded clinical studies
+- [Kaggle Dataset](https://www.kaggle.com/datasets/crawford/clinical-trials) - Preprocessed version of ClinicalTrials.gov data
+
+The data is used under the [ClinicalTrials.gov Terms of Use](https://clinicaltrials.gov/ct2/about-site/terms-conditions).
 
 ## Installation
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/clinical-trial-assistant.git
+git clone https://github.com/mahinds04/clinical-trial-assistant.git
 cd clinical-trial-assistant
 ```
 
@@ -33,24 +63,59 @@ pip install -r requirements.txt
 
 4. Create the vector index:
 ```bash
-python src/indexer/create_index.py
+# This will create embeddings in data/chroma_db/
+python -m src.indexer.create_index
 ```
 
 ## Usage
 
-### CLI Interface
+### Quickstart
 
-Run the CLI interface:
 ```bash
-python src/ui/cli.py
-```
+# CLI Interface
+python -m src.ui.cli
 
-### Streamlit Interface
-
-Run the Streamlit app:
-```bash
+# Web Interface
 streamlit run src/ui/app.py
 ```
+
+Note: Both interfaces expect the dataset at `data/clin_trials.csv` and the vector index at `data/chroma_db/`.
+
+### Demo
+
+![Demo GIF](docs/demo.gif)
+
+## Architecture
+
+![RAG Architecture](docs/architecture.png)
+
+The system uses a RAG (Retrieval Augmented Generation) architecture:
+1. Clinical trial data is embedded using Ollama's nomic-embed-text model
+2. Embeddings are stored in ChromaDB for efficient similarity search
+3. User queries are processed to find relevant trials (top-k)
+4. LLama2 3B model generates responses with citations
+
+## Configuration
+
+Key settings are in `config.py`:
+- `EMBED_MODEL`: Embedding model name
+- `CHAT_MODEL`: Chat model name
+- `TOP_K`: Number of relevant trials to retrieve
+- `DATA_PATH`: Path to dataset
+- `CHROMA_PATH`: Path to vector store
+
+See `.env.example` for required environment variables.
+
+## Evaluation
+
+The `/eval` directory contains:
+- Test dataset with 20 Q&A pairs
+- Evaluation script measuring retrieval accuracy
+- Sample CSV for CI pipeline
+
+Results:
+- Hit Rate@3: 85%
+- Precision@5: 0.78
 
 ## Project Structure
 

@@ -89,7 +89,7 @@ class ClinicalTrialAssistant:
         self.llm = Ollama(model=model_name)
         
         self.prompt_template = PromptTemplate(
-            input_variables=["context", "question"],
+            input_variables=["context", "question", "nct_ids"],
             template="""You are a helpful clinical trial assistant. Use the following context about clinical trials to answer the question. Be concise and focus on the most relevant trials.
             
 Context about clinical trials:
@@ -97,7 +97,13 @@ Context about clinical trials:
 
 Question: {question}
 
-Answer the question based on the above context. Include key information such as trial status, phase, and start date when relevant. If specific details aren't available in the context, don't make assumptions."""
+Instructions:
+1. If the context doesn't contain enough information to answer the question confidently, respond with "I don't have enough information to answer this question accurately."
+2. When answering, include key information such as trial status, phase, and dates when relevant.
+3. Never make assumptions about medical information that isn't explicitly stated in the context.
+4. End your response with "Sources: " followed by the trial IDs [{nct_ids}].
+
+Answer: """
         )
         
     def query(self, question: str, n_results: int = 3) -> Dict:
@@ -129,8 +135,20 @@ Answer the question based on the above context. Include key information such as 
         
         context = "\n---\n".join(contexts)
         
+        # Extract NCT IDs for citations
+        nct_ids = []
+        for metadata in metadata_list:
+            if "nct_id" in metadata:
+                nct_ids.append(metadata["nct_id"])
+        nct_ids_str = ", ".join(nct_ids) if nct_ids else "No trial IDs available"
+        
         # Generate response using Ollama with timeout
-        prompt = self.prompt_template.format(context=context, question=question)
+        prompt = self.prompt_template.format(
+            context=context,
+            question=question,
+            nct_ids=nct_ids_str
+        )
+        
         try:
             response = self.llm(prompt, temperature=0.7, timeout=10)  # 10 second timeout
         except Exception as e:
@@ -139,5 +157,6 @@ Answer the question based on the above context. Include key information such as 
         
         return {
             "answer": response,
-            "sources": metadata_list
+            "sources": metadata_list,
+            "nct_ids": nct_ids
         }
