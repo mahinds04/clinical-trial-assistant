@@ -1,14 +1,10 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-import sys
 from pathlib import Path
 
-# Add the project root directory to Python path
-root_dir = Path(__file__).parent.parent.parent
-sys.path.append(str(root_dir))
-
-from src.rag.assistant import ClinicalTrialAssistant
+# Use relative import for the assistant
+from ..rag.assistant import ClinicalTrialAssistant
 
 # Page configuration
 st.set_page_config(
