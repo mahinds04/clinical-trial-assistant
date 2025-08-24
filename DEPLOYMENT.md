@@ -2,7 +2,7 @@
 
 This guide explains how to deploy the Clinical Trial Assistant to Streamlit Cloud and other platforms.
 
-## Quick Start for Streamlit Cloud
+## 🚀 Quick Start for Streamlit Cloud
 
 1. **Fork/Clone this repository** to your GitHub account
 
@@ -10,18 +10,29 @@ This guide explains how to deploy the Clinical Trial Assistant to Streamlit Clou
 
 3. **Connect your GitHub repository** in Streamlit Cloud
 
-4. **Configure the app**:
-   - Main file path: `app.py`
-   - Python version: 3.11
-   - Requirements file: `requirements_deployment.txt` (or `requirements-streamlit.txt`)
+4. **Configure the app** in Streamlit Cloud:
+   - Main file path: `app.py` (or `streamlit_app.py`)
+   - Python version: 3.11 (or latest)
+   - Requirements file: `requirements_deployment.txt`
 
-5. **Set environment variables** (if needed):
+5. **Optional: Set environment variables**:
    ```
    DEPLOYMENT_ENV=cloud
-   HUGGINGFACE_API_KEY=your_key_here (optional)
+   HUGGINGFACE_API_KEY=your_key_here (optional for enhanced AI features)
    ```
 
-6. **Deploy** - Streamlit Cloud will automatically build and deploy your app
+6. **Deploy** - Click "Deploy" and Streamlit Cloud will automatically build your app
+
+The app will work immediately with the included demo dataset!
+
+## 📋 Deployment Options Summary
+
+| Option | Ease | Cost | Performance | Full AI Features |
+|--------|------|------|-------------|------------------|
+| **Streamlit Cloud** | ⭐⭐⭐⭐⭐ | Free | Good | Optional |
+| **Docker** | ⭐⭐⭐ | Varies | Excellent | Yes |
+| **Heroku** | ⭐⭐⭐⭐ | Free tier | Good | Optional |
+| **Railway** | ⭐⭐⭐⭐ | Free tier | Good | Optional |
 
 ## Local Testing
 
