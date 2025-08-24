@@ -1,4 +1,23 @@
-from typing import List, Dict, Optional
+from typing idef get_llm(model_name: str = "facebook/bart-large-cnn"):
+    """
+    Get the appropriate LLM based on environment and configuration.
+    """
+    deployment_env = os.getenv("DEPLOYMENT_ENV", "cloud")
+    
+    if deployment_env == "local":
+        return Ollama(model_name)
+    else:
+        # Cloud deployment - use HuggingFace's smaller, faster model
+        from langchain_community.llms import HuggingFaceHub
+        
+        return HuggingFaceHub(
+            repo_id="facebook/bart-large-cnn",  # Smaller, faster model good for summarization
+            model_kwargs={
+                "temperature": 0.7,
+                "max_length": 256,
+                "truncation": True
+            }
+        )ptional
 from pathlib import Path
 import os
 from dotenv import load_dotenv
