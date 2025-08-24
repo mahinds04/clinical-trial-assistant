@@ -2,9 +2,15 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 from pathlib import Path
+import sys
+import os
 
-# Use relative import for the assistant
-from ..rag.assistant import ClinicalTrialAssistant
+# Ensure src is in the Python path for absolute imports
+src_path = str(Path(__file__).parent.parent)
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
+from rag.assistant import ClinicalTrialAssistant
 
 # Page configuration
 st.set_page_config(
