@@ -1,2 +1,5 @@
 build-essential
 curl
+libatlas-base-dev
+gfortran
+python3-dev

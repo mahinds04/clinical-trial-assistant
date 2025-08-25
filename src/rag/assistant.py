@@ -14,6 +14,13 @@ try:
 except ImportError:
     pass  # dotenv is optional
 
+# Optional ChromaDB import with fallback
+try:
+    from chromadb import Client, Settings
+    CHROMADB_AVAILABLE = True
+except ImportError:
+    CHROMADB_AVAILABLE = False
+
 def get_llm(model_name: str = "google/flan-t5-large"):
     """
     Get the appropriate LLM based on environment and configuration.
@@ -49,26 +56,31 @@ class ClinicalTrialAssistant:
         
         self.llm = get_llm(self.model_name)
         
-        # Initialize ChromaDB
-        self.client = Client(Settings(
-            persist_directory=persist_directory,
-            is_persistent=True
-        ))
-        
-        # List all collections
-        collections = self.client.list_collections()
-        print(f"Available collections: {[c.name for c in collections]}")
-        
-        try:
-            self.collection = self.client.get_collection("clinical_trials")
-            print("Successfully connected to clinical_trials collection")
-        except Exception as e:
-            print(f"Error accessing collection: {e}")
-            print("Creating new collection...")
-            self.collection = self.client.create_collection(
-                name="clinical_trials",
-                metadata={"description": "Clinical trials database"}
-            )
+        # Initialize ChromaDB if available
+        if CHROMADB_AVAILABLE:
+            self.client = Client(Settings(
+                persist_directory=persist_directory,
+                is_persistent=True
+            ))
+            
+            # List all collections
+            collections = self.client.list_collections()
+            print(f"Available collections: {[c.name for c in collections]}")
+            
+            try:
+                self.collection = self.client.get_collection("clinical_trials")
+                print("Successfully connected to clinical_trials collection")
+            except Exception as e:
+                print(f"Error accessing collection: {e}")
+                print("Creating new collection...")
+                self.collection = self.client.create_collection(
+                    name="clinical_trials",
+                    metadata={"description": "Clinical trials database"}
+                )
+        else:
+            print("ChromaDB not available, using simple search")
+            self.client = None
+            self.collection = None
         
         self.prompt_template = PromptTemplate(
             input_variables=["context", "question", "nct_ids"],
@@ -90,6 +102,14 @@ Answer: """
         
     def query(self, question: str, n_results: int = 3) -> Dict:
         """Query the clinical trials database and generate a response."""
+        if not self.collection:
+            # Fallback to simple response if ChromaDB not available
+            return {
+                "answer": "I'm running in simplified mode. ChromaDB is not available for detailed trial search. Please use the Simple Assistant for basic functionality.",
+                "sources": [],
+                "context": "No vector database available"
+            }
+            
         # Get relevant documents
         results = self.collection.query(
             query_texts=[question],
