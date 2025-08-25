@@ -69,14 +69,25 @@ python -m src.indexer.create_index
 
 ## Usage
 
-### Quickstart
+### Streamlit Deployment (Recommended)
+
+For Streamlit Cloud or other deployments:
+
+```bash
+# Run the deployment-ready app
+streamlit run app.py
+```
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
+### Local Development
 
 ```bash
 # CLI Interface
 python -m src.ui.cli
 
-# Web Interface
-streamlit run src/ui/app.py
+# Web Interface (full version)
+streamlit run src/app.py
 ```
 
 Note: Both interfaces expect the dataset at `data/clin_trials.csv` and the vector index at `data/chroma_db/`.
@@ -142,3 +153,13 @@ MIT
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📖 Documentation
+
+For comprehensive documentation, see the [**WIKI.md**](WIKI.md) which includes:
+- Detailed installation guides
+- Usage tutorials
+- Architecture documentation
+- API reference
+- Troubleshooting guides
+- Contributing guidelines

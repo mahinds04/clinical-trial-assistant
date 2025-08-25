@@ -41,6 +41,9 @@ data/chroma_db/
 data/clin_trials.csv
 !data/clin_trials_demo.csv
 
+# Keep deployment demo data
+!data/
+
 # Logs
 *.log
 

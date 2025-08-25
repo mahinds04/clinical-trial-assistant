@@ -1,10 +1,10 @@
-from typing import Optional
+from typing import Optional, Dict
 from pathlib import Path
 import os
 from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
-from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 from langchain_community.llms import Ollama, HuggingFaceHub
 from chromadb import Client, Settings
 
@@ -67,7 +67,6 @@ class ClinicalTrialAssistant:
                 name="clinical_trials",
                 metadata={"description": "Clinical trials database"}
             )
-        self.llm = Ollama(model=model_name)
         
         self.prompt_template = PromptTemplate(
             input_variables=["context", "question", "nct_ids"],

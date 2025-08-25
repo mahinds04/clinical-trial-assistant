@@ -32,4 +32,21 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-[... rest of the code from src/ui/app.py ...]
+# Simple main function for testing
+def main():
+    st.title("🏥 Clinical Trial Query Assistant")
+    st.write("Welcome to the Clinical Trial Assistant!")
+    
+    # Test the assistant import
+    try:
+        assistant = ClinicalTrialAssistant()
+        st.success("✅ Assistant loaded successfully!")
+    except Exception as e:
+        st.error(f"❌ Failed to load assistant: {e}")
+    
+    st.info("This is a simplified version for deployment testing.")
+
+if __name__ == "__main__":
+    main()
+
+
