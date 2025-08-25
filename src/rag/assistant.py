@@ -29,7 +29,6 @@ def get_llm(model_name: str = "google/flan-t5-large"):
             temperature=0.7,
             max_length=512
         )
-        )
 
 class ClinicalTrialAssistant:
     def __init__(self, model_name: Optional[str] = None, persist_directory: Optional[str] = None):
