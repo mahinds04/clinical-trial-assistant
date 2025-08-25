@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
+import sys
+from pathlib import Path
 
+# Add current directory to Python path for imports
+sys.path.insert(0, str(Path(__file__).parent))
 
 # Page configuration
 st.set_page_config(
