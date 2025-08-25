@@ -1,0 +1,1 @@
+"""Clinical Trial Assistant - Core package."""
