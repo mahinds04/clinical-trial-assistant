@@ -1,6 +1,10 @@
 import streamlit as st
 import os
+import sys
 from pathlib import Path
+
+# Add current directory to Python path for imports
+sys.path.insert(0, str(Path(__file__).parent))
 
 # Set environment for cloud deployment
 os.environ["DEPLOYMENT_ENV"] = "cloud"
