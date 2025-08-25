@@ -3,7 +3,6 @@ pandas==2.1.0
 chromadb==0.4.15
 langchain==0.0.325
 langchain-community==0.0.10
-python-dotenv==1.0.0
 transformers==4.35.0
 huggingface-hub==0.19.4
 torch==2.0.1

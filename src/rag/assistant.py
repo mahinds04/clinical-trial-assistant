@@ -1,15 +1,18 @@
 from typing import Optional, Dict
 from pathlib import Path
 import os
-from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 from langchain_community.chat_models import ChatOpenAI
 from langchain_community.llms import Ollama, HuggingFaceHub
 from chromadb import Client, Settings
 
-# Load environment variables
-load_dotenv()
+# Load environment variables (optional)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv is optional
 
 def get_llm(model_name: str = "google/flan-t5-large"):
     """
