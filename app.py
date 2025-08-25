@@ -13,9 +13,16 @@ import os
 
 # Add src directory to Python path for imports
 root_dir = Path(__file__).parent
-sys.path.append(str(root_dir / "src"))
+src_dir = root_dir / "src"
+sys.path.insert(0, str(src_dir))
 
-from src.rag.assistant import ClinicalTrialAssistant
+# Import the assistant
+try:
+    from rag.assistant import ClinicalTrialAssistant
+except ImportError as e:
+    st.error(f"Import error: {e}")
+    st.error("Please ensure all dependencies are installed correctly.")
+    st.stop()
 
 # Page configuration
 st.set_page_config(

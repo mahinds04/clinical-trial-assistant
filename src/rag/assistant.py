@@ -1,23 +1,4 @@
-from typing idef get_llm(model_name: str = "facebook/bart-large-cnn"):
-    """
-    Get the appropriate LLM based on environment and configuration.
-    """
-    deployment_env = os.getenv("DEPLOYMENT_ENV", "cloud")
-    
-    if deployment_env == "local":
-        return Ollama(model_name)
-    else:
-        # Cloud deployment - use HuggingFace's smaller, faster model
-        from langchain_community.llms import HuggingFaceHub
-        
-        return HuggingFaceHub(
-            repo_id="facebook/bart-large-cnn",  # Smaller, faster model good for summarization
-            model_kwargs={
-                "temperature": 0.7,
-                "max_length": 256,
-                "truncation": True
-            }
-        )ptional
+from typing import Optional
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -40,7 +21,6 @@ def get_llm(model_name: str = "google/flan-t5-large"):
         return Ollama(model=model_name)
     else:
         # Cloud deployment - use HuggingFace's free models
-        from huggingface_hub.inference._text_generation import TextGenerationService
         from langchain_community.llms import HuggingFaceEndpoint
 
         return HuggingFaceEndpoint(
@@ -48,6 +28,7 @@ def get_llm(model_name: str = "google/flan-t5-large"):
             task="text2text-generation",
             temperature=0.7,
             max_length=512
+        )
         )
 
 class ClinicalTrialAssistant:
