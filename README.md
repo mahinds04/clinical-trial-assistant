@@ -153,3 +153,13 @@ MIT
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📖 Documentation
+
+For comprehensive documentation, see the [**WIKI.md**](WIKI.md) which includes:
+- Detailed installation guides
+- Usage tutorials
+- Architecture documentation
+- API reference
+- Troubleshooting guides
+- Contributing guidelines
