@@ -1,8 +1,8 @@
 streamlit
 pandas
-folium
-streamlit-folium
-plotly
-scikit-learn
+scikit-learn==1.3.2
+folium==0.14.0
+streamlit-folium==0.15.0
+plotly==5.17.0
 langchain
 langchain-community

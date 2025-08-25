@@ -12,7 +12,6 @@ try:
     FOLIUM_AVAILABLE = True
 except ImportError:
     FOLIUM_AVAILABLE = False
-    st.warning("Map features disabled: folium not available")
 
 try:
     import plotly.express as px
@@ -26,7 +25,6 @@ try:
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
-    st.warning("Advanced analytics disabled: scikit-learn not available")
 
 # Add src directory to Python path for imports
 root_dir = Path(__file__).parent
@@ -344,9 +342,24 @@ def main():
                 st.success(f"✅ {ASSISTANT_TYPE}")
             else:
                 st.error("❌ Assistant (demo mode)")
-            st.success("✅ Analytics" if SKLEARN_AVAILABLE else "❌ Analytics")
-            st.success("✅ Maps" if FOLIUM_AVAILABLE else "❌ Maps")
-            st.success("✅ Charts" if PLOTLY_AVAILABLE else "❌ Charts")
+            
+            if SKLEARN_AVAILABLE:
+                st.success("✅ Analytics")
+            else:
+                st.warning("⚠️ Analytics (limited)")
+                st.caption("Trial comparison uses basic similarity scoring")
+            
+            if FOLIUM_AVAILABLE:
+                st.success("✅ Maps")
+            else:
+                st.warning("⚠️ Maps (disabled)")
+                st.caption("Geographic visualization not available")
+                
+            if PLOTLY_AVAILABLE:
+                st.success("✅ Charts")
+            else:
+                st.warning("⚠️ Charts (basic only)")
+                st.caption("Using Streamlit built-in charts")
             
             # Session stats
             if st.session_state.messages:
