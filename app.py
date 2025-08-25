@@ -37,9 +37,16 @@ sys.path.insert(0, str(src_dir))
 try:
     from rag.assistant import ClinicalTrialAssistant
     ASSISTANT_AVAILABLE = True
+    ASSISTANT_TYPE = "Full RAG Assistant"
 except ImportError as e:
-    st.error(f"Assistant import error: {e}")
-    ASSISTANT_AVAILABLE = False
+    try:
+        from rag.simple_assistant import SimpleClinicalTrialAssistant as ClinicalTrialAssistant
+        ASSISTANT_AVAILABLE = True
+        ASSISTANT_TYPE = "Simple Assistant"
+    except ImportError:
+        st.error(f"No assistant available: {e}")
+        ASSISTANT_AVAILABLE = False
+        ASSISTANT_TYPE = "None"
 
 # Page configuration
 st.set_page_config(
@@ -333,7 +340,10 @@ def main():
             # System status
             st.markdown("### System Status")
             st.success("✅ Streamlit" if True else "❌ Streamlit")
-            st.success("✅ Assistant" if ASSISTANT_AVAILABLE else "❌ Assistant (demo mode)")
+            if ASSISTANT_AVAILABLE:
+                st.success(f"✅ {ASSISTANT_TYPE}")
+            else:
+                st.error("❌ Assistant (demo mode)")
             st.success("✅ Analytics" if SKLEARN_AVAILABLE else "❌ Analytics")
             st.success("✅ Maps" if FOLIUM_AVAILABLE else "❌ Maps")
             st.success("✅ Charts" if PLOTLY_AVAILABLE else "❌ Charts")
